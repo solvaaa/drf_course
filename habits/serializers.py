@@ -12,5 +12,6 @@ class HabitSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', )
         validators = [
             DurationValidator(field='duration'),
-            FrequencyValidator(field='frequency')
+            FrequencyValidator(field='frequency'),
+            ConnectedHabitValidator(field='connected_habit')
         ]

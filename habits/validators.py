@@ -6,11 +6,11 @@ class DurationValidator:
         self.field = field
 
     def __call__(self, value):
-        dict_value = dict(value).get(self.field)
-        if dict_value > 120:
+        duration = dict(value).get(self.field)
+        if duration > 120:
             raise ValidationError('Время выполнения привычки должно быть '
                                   'не больше 120 секунд')
-        elif dict_value <= 0:
+        elif duration <= 0:
             raise ValidationError('Неверное время выполнения привычки')
 
 
@@ -19,7 +19,19 @@ class FrequencyValidator:
         self.field = field
 
     def __call__(self, value):
-        dict_value = dict(value).get(self.field)
-        if dict_value < 1 or dict_value > 7:
+        frequency = dict(value).get(self.field)
+        if frequency < 1 or frequency > 7:
             raise ValidationError('Частота выполения привычки должна быть '
                                   'от 1 до 7 дней')
+
+
+class ConnectedHabitValidator:
+    def __init__(self, field):
+        self.field = field
+
+    def __call__(self, value):
+        connected_habit = dict(value).get(self.field)
+        if connected_habit is not None:
+            if not connected_habit.is_pleasant:
+                raise ValidationError('Связанная привычка должна быть '
+                                      'приятной привычкой')
