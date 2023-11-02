@@ -30,7 +30,6 @@ class HabitCreateView(CreateAPIView):
     def perform_create(self, serializer):
         obj = serializer.save()
         obj.user = self.request.user
-        print('USER!!!', self.request.user)
         obj.save()
 
 
