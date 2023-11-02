@@ -35,3 +35,35 @@ class ConnectedHabitValidator:
             if not connected_habit.is_pleasant:
                 raise ValidationError('Связанная привычка должна быть '
                                       'приятной привычкой')
+
+
+class RewardValidator:
+    def __init__(self, field_1, field_2):
+        self.field_1 = field_1
+        self.field_2 = field_2
+
+    def __call__(self, value):
+        connected_habit = dict(value).get(self.field_1)
+        reward = dict(value).get(self.field_2)
+        if reward is not None and connected_habit is not None:
+            raise ValidationError('Поля "Вознаграждение" и '
+                                  '"Связанная привычка"'
+                                  'нельзя использовать одновременно')
+
+
+class PleasantRewardValidator:
+    def __init__(self, field_1, field_2, field_3):
+        self.field_1 = field_1
+        self.field_2 = field_2
+        self.field_3 = field_3
+
+    def __call__(self, value):
+        is_pleasant = dict(value).get(self.field_1)
+        connected_habit = dict(value).get(self.field_2)
+        reward = dict(value).get(self.field_3)
+        if is_pleasant:
+            if reward is not None or connected_habit is not None:
+                raise ValidationError('У приятной привычки не может быть '
+                                      'вознаграждения')
+
+
