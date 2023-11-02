@@ -8,7 +8,7 @@ from habits.serializers import HabitSerializer
 
 class HabitDetailView(RetrieveAPIView):
     """Shows details of the habit"""
-    queryset = Habit.objects.all().order_by('id')
+    queryset = Habit.objects.all()
     serializer_class = HabitSerializer
 
 
@@ -22,6 +22,12 @@ class HabitListView(ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Habit.objects.filter(user=user)
+
+
+class PublicHabitListView(HabitListView):
+    """Shows list of available habits"""
+    def get_queryset(self):
+        return Habit.objects.filter(is_public=True)
 
 
 class HabitCreateView(CreateAPIView):
