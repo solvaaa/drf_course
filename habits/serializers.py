@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from habits.models import Habit
+from habits.validators import *
 
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -9,4 +10,6 @@ class HabitSerializer(serializers.ModelSerializer):
         model = Habit
         fields = "__all__"
         read_only_fields = ('user', )
-        validators = []
+        validators = [
+            DurationValidator(field='duration'),
+        ]
