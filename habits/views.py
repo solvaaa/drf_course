@@ -3,6 +3,7 @@ from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView,
 from rest_framework.permissions import IsAuthenticated
 
 from habits.models import Habit
+from habits.paginators import FivePagination
 from habits.permissions import IsOwner, IsPublic
 from habits.serializers import HabitSerializer
 
@@ -20,6 +21,7 @@ class HabitListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     filter_backends = [OrderingFilter]
     ordering_fields =['id']
+    pagination_class = FivePagination
 
     def get_queryset(self):
         user = self.request.user
