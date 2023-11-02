@@ -15,10 +15,13 @@ class HabitDetailView(RetrieveAPIView):
 class HabitListView(ListAPIView):
     """Shows list of available habits"""
     serializer_class = HabitSerializer
-    queryset =Habit.objects.all()
-
+    permission_classes = [IsAuthenticated]
     filter_backends = [OrderingFilter]
     ordering_fields =['id']
+
+    def get_queryset(self):
+        user = self.request.user
+        return Habit.objects.filter(user=user)
 
 
 class HabitCreateView(CreateAPIView):
