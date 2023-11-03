@@ -70,5 +70,3 @@ class PleasantRewardValidator:
             if reward is not None or connected_habit is not None:
                 raise ValidationError('У приятной привычки не может быть '
                                       'вознаграждения')
-
-

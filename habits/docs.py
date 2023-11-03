@@ -2,7 +2,14 @@ from drf_yasg import openapi
 
 HABIT_CREATE_CUSTOM_BODY = {
         'type': openapi.TYPE_OBJECT,
-        'required': ['name', 'place', 'time', 'action', 'is_pleasant', 'duration'],
+        'required': [
+            'name',
+            'place',
+            'time',
+            'action',
+            'is_pleasant',
+            'duration'
+        ],
         'title': 'Habit',
         'properties': {
             "name": openapi.Schema(

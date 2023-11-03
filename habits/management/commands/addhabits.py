@@ -22,8 +22,11 @@ class Command(BaseCommand):
                 'reward': None
             }
             if not is_pleasant:
-                if not bool(randint(0, 2)) and Habit.objects.filter(is_pleasant=True).count():
-                    reward['connected_habit'] = Habit.objects.filter(is_pleasant=True).order_by('?').first()
+                if not bool(randint(0, 2)) and \
+                        Habit.objects.filter(is_pleasant=True).count():
+                    reward['connected_habit'] = Habit.objects.\
+                                                filter(is_pleasant=True).\
+                                                order_by('?').first()
                 else:
                     reward['reward'] = f'Вознаграждение {randint(1, 20)}'
 

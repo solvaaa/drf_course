@@ -1,7 +1,12 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import \
+    RetrieveAPIView, \
+    ListAPIView, \
+    CreateAPIView, \
+    UpdateAPIView, \
+    DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from habits.docs import HABIT_CREATE_CUSTOM_BODY
@@ -22,7 +27,7 @@ class HabitListView(ListAPIView):
     """Shows list of available public habits"""
     serializer_class = HabitSerializer
     filter_backends = [OrderingFilter]
-    ordering_fields =['id']
+    ordering_fields = ['id']
     pagination_class = FivePagination
 
     def get_queryset(self):
