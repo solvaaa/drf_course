@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -42,6 +44,54 @@ class HabitCreateView(CreateAPIView):
         obj = serializer.save()
         obj.user = self.request.user
         obj.save()
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['name', 'place', 'time', 'action', 'is_pleasant', 'duration'],
+        title='Habit',
+        properties={
+            "name": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                title='Название',
+                maxLength=100),
+            "place": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                title='Место',
+                maxLength=100),
+            "time": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                title='Время'),
+            "action": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                title='Время',
+                maxLength=100),
+            "is_pleasant": openapi.Schema(
+                type=openapi.TYPE_BOOLEAN,
+                title='Приятная?'),
+            "frequency": openapi.Schema(
+                type=openapi.TYPE_INTEGER,
+                title='Периодичность',
+                minimum=1,
+                maximum=7,
+                default=1),
+            "reward": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                title='Вознаграждение',
+                maxLength=100),
+            "duration": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                title='Продолжительность',
+                minimum=1,
+                maximum=120),
+            "is_public": openapi.Schema(
+                type=openapi.TYPE_BOOLEAN,
+                title='Публичная?'),
+            "connected_habit": openapi.Schema(
+                type=openapi.TYPE_INTEGER,
+                title='Публичная?'),
+    }))
+    def post(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs)
 
 
 class HabitUpdateView(UpdateAPIView):
