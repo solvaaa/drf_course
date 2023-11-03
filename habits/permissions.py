@@ -9,6 +9,7 @@ class IsOwner(BasePermission):
 
 
 class IsPublic(BasePermission):
+    '''Permission for public habits'''
     message = 'Привычка не публичная'
 
     def has_object_permission(self, request, view, obj):

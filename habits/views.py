@@ -16,7 +16,7 @@ class HabitDetailView(RetrieveAPIView):
 
 
 class HabitListView(ListAPIView):
-    """Shows list of available habits"""
+    """Shows list of available public habits"""
     serializer_class = HabitSerializer
     filter_backends = [OrderingFilter]
     ordering_fields =['id']

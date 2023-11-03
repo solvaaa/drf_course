@@ -2,6 +2,7 @@ from rest_framework.serializers import ValidationError
 
 
 class DurationValidator:
+    '''Checks if duration of a habit is between 1 and 120 seconds'''
     def __init__(self, field):
         self.field = field
 
@@ -15,6 +16,7 @@ class DurationValidator:
 
 
 class FrequencyValidator:
+    '''Checks if frequenecy of a habit is between 1 and 7 days'''
     def __init__(self, field):
         self.field = field
 
@@ -26,6 +28,7 @@ class FrequencyValidator:
 
 
 class ConnectedHabitValidator:
+    '''Checks if connected habit is a pleasant habit'''
     def __init__(self, field):
         self.field = field
 
@@ -38,6 +41,7 @@ class ConnectedHabitValidator:
 
 
 class RewardValidator:
+    '''Checks if there is only one reward or connected habit as a reward'''
     def __init__(self, field_1, field_2):
         self.field_1 = field_1
         self.field_2 = field_2
@@ -52,6 +56,7 @@ class RewardValidator:
 
 
 class PleasantRewardValidator:
+    '''Checks if pleasant habit doesn't have a reward'''
     def __init__(self, field_1, field_2, field_3):
         self.field_1 = field_1
         self.field_2 = field_2
