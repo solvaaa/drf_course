@@ -16,10 +16,11 @@ class Habit(models.Model):
     connected_habit = models.ForeignKey('self', on_delete=models.SET_NULL,
                                         verbose_name='связанная привычка',
                                         **NULLABLE)
-    frequency = models.IntegerField(verbose_name='периодичность', default=1)
+    frequency = models.PositiveSmallIntegerField(verbose_name='периодичность',
+                                                 default=1)
     reward = models.CharField(max_length=100, verbose_name='вознаграждение',
                               **NULLABLE)
-    duration = models.IntegerField(verbose_name='продолжительность')
+    duration = models.PositiveSmallIntegerField(verbose_name='продолжительность')
     is_public = models.BooleanField(default=False, verbose_name='публичная?')
 
     def __str__(self):
