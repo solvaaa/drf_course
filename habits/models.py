@@ -1,4 +1,5 @@
 from django.db import models
+from django_celery_beat.models import PeriodicTask
 
 from users.models import NULLABLE, User
 
@@ -26,6 +27,8 @@ class Habit(models.Model):
     duration = models.PositiveSmallIntegerField(
         verbose_name='продолжительность')
     is_public = models.BooleanField(default=False, verbose_name='публичная?')
+    periodic_task = models.ForeignKey(PeriodicTask, on_delete=models.SET_NULL, **NULLABLE)
+    subscribed_to_bot = models.BooleanField(default=False, verbose_name='подписан на бота?')
 
     def __str__(self):
         return f'{self.name}, {self.user}'
