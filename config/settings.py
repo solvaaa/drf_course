@@ -184,3 +184,5 @@ CELERY_TASK_TRACK_STARTED = True
 
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
