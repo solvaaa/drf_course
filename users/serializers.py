@@ -21,4 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'first_name',
             'last_name',
-            'phone')
+            'telegram_handle',
+            'subscribed_to_bot'
+        )
+        read_only_fields = ('subscribed_to_bot')
