@@ -53,8 +53,7 @@ class HabitTestCase(APITestCase):
             'duration': 97,
             'is_public': False,
             'user': self.user.id,
-            'connected_habit': None,
-            'periodic_task': None
+            'connected_habit': None
         }
         self.assertTrue(
             Habit.objects.all().exists()
@@ -109,8 +108,7 @@ class HabitTestCase(APITestCase):
                      'duration': 97,
                      'is_public': False,
                      'user': self.user.id,
-                     'connected_habit': None,
-                     'periodic_task': None
+                     'connected_habit': None
                      }
                 ]
         }
@@ -149,8 +147,7 @@ class HabitTestCase(APITestCase):
             'duration': 97,
             'is_public': False,
             'user': self.user.id,
-            'connected_habit': None,
-            'periodic_task': None
+            'connected_habit': None
         }
         self.assertEqual(
             response.json(),
@@ -181,8 +178,7 @@ class HabitTestCase(APITestCase):
             'duration': 97,
             'is_public': False,
             'user': self.user.id,
-            'connected_habit': None,
-            'periodic_task': None
+            'connected_habit': None
         }
         self.assertEqual(
             response.json(),
@@ -248,8 +244,7 @@ class HabitTestCase(APITestCase):
                         'duration': 97,
                         'is_public': True,
                         'user': user_2.id,
-                        'connected_habit': None,
-                        'periodic_task': None
+                        'connected_habit': None
                     }
                 ]
         }
