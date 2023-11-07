@@ -24,4 +24,4 @@ class UserSerializer(serializers.ModelSerializer):
             'telegram_handle',
             'subscribed_to_bot'
         )
-        read_only_fields = ('subscribed_to_bot')
+        read_only_fields = ('subscribed_to_bot',)
