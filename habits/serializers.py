@@ -13,8 +13,8 @@ class HabitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = "__all__"
-        read_only_fields = ('user', )
+        exclude = ("periodic_task", )
+        read_only_fields = ('user',)
         validators = [
             DurationValidator(field='duration'),
             FrequencyValidator(field='frequency'),
