@@ -1,31 +1,36 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
-from django_celery_beat.models import IntervalSchedule, PeriodicTask
+from django_celery_beat.models import IntervalSchedule, PeriodicTask, CrontabSchedule, ClockedSchedule
 
 from habits.models import Habit
 
 
 def create_periodic_task(user, habit):
-
-    schedule, created = IntervalSchedule.objects.get_or_create(
-        every=20,
-        period=IntervalSchedule.HOURS,
+    frequency = habit.frequency
+    time = str(habit.time)
+    hour, minute, seconds = time.split(':')
+    schedule, created = CrontabSchedule.objects.get_or_create(
+        hour=hour,
+        minute=minute,
+        day_of_month=f'*/{frequency}'
     )
 
     text = f'{user.telegram_handle},\n' \
-           f' настало время сделать вашу привычку {habit.name}.\n' \
-           f' Действие: {habit.action}'
+           f'настало время ({habit.time}) сделать вашу привычку ' \
+           f'{habit.name}.\n' \
+           f'Действие: {habit.action}.\n' \
+           f'Место: {habit.place}'
     chat_id = user.chat_id
     try:
         PeriodicTask.objects.get(name=f'Task for {habit.id}, user {user.id}')
     except PeriodicTask.DoesNotExist:
         task = PeriodicTask.objects.create(
-            interval=schedule,
+            crontab=schedule,
             name=f'Task for {habit.id}, user {user.id}',
             task='habits.tasks.send_reminder',
             args=json.dumps([chat_id, text]),
-            expires=datetime.now() + timedelta(days=60)
+            expires=datetime.now() + timedelta(days=300)
         )
         habit.periodic_task = task
         habit.save()
