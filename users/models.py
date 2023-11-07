@@ -12,8 +12,11 @@ class User(AbstractUser):
         max_length=100,
         verbose_name='Telegram',
         unique=True, **NULLABLE)
-    chat_id = models.CharField(max_length=100, verbose_name='id чата в Телеграме', **NULLABLE)
-    subscribed_to_bot = models.BooleanField(default=False, verbose_name='подписан на бота?')
+    chat_id = models.CharField(max_length=100,
+                               verbose_name='id чата в Телеграме',
+                               **NULLABLE)
+    subscribed_to_bot = models.BooleanField(default=False,
+                                            verbose_name='подписан на бота?')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

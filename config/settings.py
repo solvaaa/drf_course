@@ -187,8 +187,8 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'telegram_update_check': {
-        'task': 'habits.tasks.get_telegram_updates',  # Путь к задаче
-        'schedule': timedelta(seconds=60),  # Расписание выполнения задачи (например, каждые 10 минут)
+        'task': 'habits.tasks.get_telegram_updates',
+        'schedule': timedelta(seconds=60),
     },
 }
 
