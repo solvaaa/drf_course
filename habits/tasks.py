@@ -27,17 +27,31 @@ def get_telegram_updates():
                           'нашем сайте'
 
     updates = telegram.get_update()
-    if len(updates):
-        for update in updates:
-            if update['text'] == '/start':
-                username = update['chat']['username']
-                chat_id = update['chat']['id']
-                user = User.objects.get(telegram_handle=username).exists()
-                if user is not None:
-                    telegram.send_message(chat_id, welcome_text)
-                    create_tasks_for_user(user)
-                else:
-                    telegram.send_message(chat_id, not_authorized_text)
+    max_update_id = 0
+    new_messages = []
+    if len(updates['result']):
+        for update in updates['result']:
+            update_id = update['update_id']
+            if update_id > max_update_id:
+                max_update_id = update_id
+            message = update['message']
+            if update['message']['text'] == '/start':
+                username = message['chat']['username']
+                chat_id = message['chat']['id']
+                new_messages.append({'username': username, 'chat_id':chat_id})
+        telegram.get_update(offset=max_update_id + 1)
+        for new_message in new_messages:
+            username = new_message['username']
+            chat_id = new_message['chat_id']
+            try:
+                user = User.objects.get(telegram_handle=username)
+            except User.DoesNotExist:
+                telegram.send_message(chat_id, not_authorized_text)
+            else:
+                telegram.send_message(chat_id, welcome_text)
+                create_tasks_for_user(user)
+
+
 
 
 @shared_task

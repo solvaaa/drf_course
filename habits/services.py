@@ -17,14 +17,15 @@ def create_periodic_task(user, habit):
            f' настало время сделать вашу привычку {habit.name}.\n' \
            f' Действие: {habit.action}'
     chat_id = user.chat_id
-
-    PeriodicTask.objects.create(
-        interval=schedule,
-        name=f'Task for {habit.id}, user {user.id}',
-        task='habits.tasks.send_reminder',
-        args=json.dumps([chat_id, text]),
-        expires=datetime.utcnow() + timedelta(seconds=30)
-    )
+    try:
+        PeriodicTask.objects.get(name=f'Task for {habit.id}, user {user.id}')
+    except PeriodicTask.DoesNotExist:
+        PeriodicTask.objects.create(
+            interval=schedule,
+            name=f'Task for {habit.id}, user {user.id}',
+            task='habits.tasks.send_reminder',
+            args=json.dumps([chat_id, text])
+        )
 
 
 def create_tasks_for_user(user):
