@@ -10,7 +10,7 @@ def create_periodic_task(user, habit):
 
     schedule, created = IntervalSchedule.objects.get_or_create(
         every=20,
-        period=IntervalSchedule.SECONDS,
+        period=IntervalSchedule.HOURS,
     )
 
     text = f'{user.telegram_handle},\n' \
@@ -24,7 +24,8 @@ def create_periodic_task(user, habit):
             interval=schedule,
             name=f'Task for {habit.id}, user {user.id}',
             task='habits.tasks.send_reminder',
-            args=json.dumps([chat_id, text])
+            args=json.dumps([chat_id, text]),
+            expires=datetime.now() + timedelta(seconds=60)
         )
 
 

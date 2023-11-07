@@ -48,6 +48,8 @@ def get_telegram_updates():
             except User.DoesNotExist:
                 telegram.send_message(chat_id, not_authorized_text)
             else:
+                user.chat_id = chat_id
+                user.save()
                 telegram.send_message(chat_id, welcome_text)
                 create_tasks_for_user(user)
 

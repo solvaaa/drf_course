@@ -1,3 +1,7 @@
+import json
+from datetime import timedelta, datetime
+
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.filters import OrderingFilter
@@ -14,6 +18,7 @@ from habits.models import Habit
 from habits.paginators import FivePagination
 from habits.permissions import IsOwner, IsPublic
 from habits.serializers import HabitSerializer
+from habits.services import create_periodic_task
 
 
 class HabitDetailView(RetrieveAPIView):
@@ -51,11 +56,13 @@ class HabitCreateView(CreateAPIView):
         obj.user = self.request.user
         obj.save()
 
+        create_periodic_task(obj.user, obj)
+
     @swagger_auto_schema(request_body=openapi.Schema(
         **HABIT_CREATE_CUSTOM_BODY
     ))
     def post(self, request, *args, **kwargs):
-        super().post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 class HabitUpdateView(UpdateAPIView):
@@ -68,13 +75,13 @@ class HabitUpdateView(UpdateAPIView):
         **HABIT_CREATE_CUSTOM_BODY
     ))
     def put(self, request, *args, **kwargs):
-        super().put(request, *args, **kwargs)
+        return super().put(request, *args, **kwargs)
 
     @swagger_auto_schema(request_body=openapi.Schema(
         **HABIT_CREATE_CUSTOM_BODY
     ))
     def patch(self, request, *args, **kwargs):
-        super().patch(request, *args, **kwargs)
+        return super().patch(request, *args, **kwargs)
 
 
 class HabitDestroyView(DestroyAPIView):
