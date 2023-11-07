@@ -141,7 +141,7 @@ class HabitTestCase(APITestCase):
             'place': 'Место 1',
             'time': '18:12:00',
             'action': 'Действие 1',
-             'is_pleasant': False,
+            'is_pleasant': False,
             'frequency': 2,
             'reward': 'Вознаграждение 6',
             'duration': 97,
@@ -196,10 +196,10 @@ class HabitTestCase(APITestCase):
         self.user.set_password('11qwerty11')
         self.user.save()
 
-        habit = Habit.objects.create(user=user_2, **data)
+        Habit.objects.create(user=user_2, **data)
 
         response = self.client.get(
-            f'/public/'
+            '/public/'
         )
         self.assertEqual(
             response.status_code,
@@ -220,7 +220,7 @@ class HabitTestCase(APITestCase):
         habit_public = Habit.objects.create(user=user_2, **data)
 
         response_true = self.client.get(
-            f'/public/'
+            '/public/'
         )
         self.assertEqual(
             response_true.status_code,
@@ -321,5 +321,3 @@ class HabitTestCase(APITestCase):
             response.status_code,
             status.HTTP_400_BAD_REQUEST
         )
-
-

@@ -1,10 +1,4 @@
-import json
-from datetime import datetime, timedelta
-
-import requests
 from celery import shared_task
-from django_celery_beat.models import PeriodicTask, \
-    IntervalSchedule
 
 from config.settings import TELEGRAM_BOT_TOKEN
 import habits.telegram as telegram
@@ -38,7 +32,7 @@ def get_telegram_updates():
             if update['message']['text'] == '/start':
                 username = message['chat']['username']
                 chat_id = message['chat']['id']
-                new_messages.append({'username': username, 'chat_id':chat_id})
+                new_messages.append({'username': username, 'chat_id': chat_id})
         telegram.get_update(offset=max_update_id + 1)
         for new_message in new_messages:
             username = new_message['username']
@@ -55,9 +49,6 @@ def get_telegram_updates():
                 create_tasks_for_user(user)
 
 
-
-
 @shared_task
 def send_reminder(chat_id, text):
     telegram.send_message(chat_id, text)
-

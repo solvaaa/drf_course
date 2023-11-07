@@ -27,8 +27,9 @@ class Habit(models.Model):
     duration = models.PositiveSmallIntegerField(
         verbose_name='продолжительность')
     is_public = models.BooleanField(default=False, verbose_name='публичная?')
-    periodic_task = models.ForeignKey(PeriodicTask, on_delete=models.SET_NULL, **NULLABLE)
-
+    periodic_task = models.ForeignKey(PeriodicTask,
+                                      on_delete=models.SET_NULL,
+                                      **NULLABLE)
 
     def __str__(self):
         return f'{self.name}, {self.user}'

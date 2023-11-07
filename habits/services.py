@@ -1,7 +1,7 @@
 import json
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 
-from django_celery_beat.models import IntervalSchedule, PeriodicTask, CrontabSchedule, ClockedSchedule
+from django_celery_beat.models import PeriodicTask, CrontabSchedule
 
 from habits.models import Habit
 
@@ -23,10 +23,11 @@ def create_periodic_task(user, habit):
            f'Место: {habit.place}'
     chat_id = user.chat_id
     try:
-        task = PeriodicTask.objects.get(name=f'Task for {habit.id}, user {user.id}')
+        task = PeriodicTask.objects.get(
+            name=f'Task for {habit.id}, user {user.id}')
         task.crontab = schedule
-        task.args=json.dumps([chat_id, text])
-        task.expires=datetime.now() + timedelta(days=300)
+        task.args = json.dumps([chat_id, text])
+        task.expires = datetime.now() + timedelta(days=300)
         task.save()
 
     except PeriodicTask.DoesNotExist:
