@@ -18,7 +18,7 @@ from habits.models import Habit
 from habits.paginators import FivePagination
 from habits.permissions import IsOwner, IsPublic
 from habits.serializers import HabitSerializer
-from habits.services import create_periodic_task
+from habits.services import create_periodic_task, delete_periodic_task
 
 
 class HabitDetailView(RetrieveAPIView):
@@ -55,8 +55,8 @@ class HabitCreateView(CreateAPIView):
         obj = serializer.save()
         obj.user = self.request.user
         obj.save()
-
-        create_periodic_task(obj.user, obj)
+        if obj.user.subscribed_to_bot:
+            create_periodic_task(obj.user, obj)
 
     @swagger_auto_schema(request_body=openapi.Schema(
         **HABIT_CREATE_CUSTOM_BODY
@@ -89,3 +89,7 @@ class HabitDestroyView(DestroyAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsOwner]
+
+    def perform_destroy(self, instance):
+        delete_periodic_task(instance)
+        instance.delete()
