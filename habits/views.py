@@ -71,6 +71,11 @@ class HabitUpdateView(UpdateAPIView):
     serializer_class = HabitSerializer
     permission_classes = [IsOwner]
 
+    def perform_update(self, serializer):
+        obj = serializer.save()
+        if obj.user.subscribed_to_bot:
+            create_periodic_task(obj.user, obj)
+
     @swagger_auto_schema(request_body=openapi.Schema(
         **HABIT_CREATE_CUSTOM_BODY
     ))

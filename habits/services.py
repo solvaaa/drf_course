@@ -23,7 +23,12 @@ def create_periodic_task(user, habit):
            f'Место: {habit.place}'
     chat_id = user.chat_id
     try:
-        PeriodicTask.objects.get(name=f'Task for {habit.id}, user {user.id}')
+        task = PeriodicTask.objects.get(name=f'Task for {habit.id}, user {user.id}')
+        task.crontab = schedule
+        task.args=json.dumps([chat_id, text])
+        task.expires=datetime.now() + timedelta(days=300)
+        task.save()
+
     except PeriodicTask.DoesNotExist:
         task = PeriodicTask.objects.create(
             crontab=schedule,
